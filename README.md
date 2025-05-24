@@ -46,7 +46,7 @@ A simple note-taking system with automatic synchronization and command-line tool
 4. Enable and start the sync service:
    ```bash
    sudo systemctl daemon-reload
-   sudo systemctl enable --now personal-drafts-sync.timer
+   sudo systemctl enable --now personal-drafts-sync.service
    ```
 
 ## Usage
