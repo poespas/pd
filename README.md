@@ -37,7 +37,13 @@ A simple note-taking system with automatic synchronization and command-line tool
    sudo cp etc/systemd/system/personal-drafts-sync.* /etc/systemd/system/
    ```
 
-3. Enable and start the sync service:
+3. Configure the systemd service user:
+   ```bash
+   # Replace the User directive in the service file with your username
+   sudo sed -i "s/User=.*/User=$USER/" /etc/systemd/system/personal-drafts-sync.service
+   ```
+
+4. Enable and start the sync service:
    ```bash
    sudo systemctl daemon-reload
    sudo systemctl enable --now personal-drafts-sync.timer

@@ -4,7 +4,7 @@
 NOTES_DIR="${PD_DIR:-$HOME/notes}"
 
 # Get the editor from environment or use default
-EDITOR="${PD_EDITOR:${$EDITOR-nano}}"
+EDITOR="${PD_EDITOR:-${EDITOR:-nano}}"
 
 if [ -z "$1" ]; then
   # If no parameter is provided, create a file based on today's date
