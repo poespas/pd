@@ -1,0 +1,12 @@
+#compdef pd
+
+# Simple Zsh completion for pd command
+_pd() {
+  local notes_dir="${PD_DIR:-$HOME/notes}"
+  
+  # Complete files relative to notes directory
+  _files -W "$notes_dir"
+}
+
+# Register the completion function
+_pd "$@" 

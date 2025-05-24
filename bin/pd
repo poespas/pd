@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Get the notes directory from environment or use default
+NOTES_DIR="${PD_DIR:-$HOME/notes}"
+
+# Get the editor from environment or use default
+EDITOR="${PD_EDITOR:${$EDITOR-nano}}"
+
+if [ -z "$1" ]; then
+  # If no parameter is provided, create a file based on today's date
+  year=$(date +%Y)
+  month=$(date +%m)
+  day=$(date +%d)
+  filename="day/$year/$month/$day.md"
+else
+  # Ensure the path has a .md extension
+  filename="$1"
+  if [[ ! "$filename" == *.md ]]; then
+    filename="${filename}.md"
+  fi
+fi
+
+# Construct the full path by combining notes_dir with the provided path
+full_path="$NOTES_DIR/$filename"
+
+# Check if the file exists, create it if it doesn't
+if [ ! -f "$full_path" ]; then
+  echo "File does not exist. Creating $full_path"
+  mkdir -p "$(dirname "$full_path")"
+  touch "$full_path"
+  
+  echo "# ${filename%.md}" > "$full_path"
+fi
+
+# Open the file with the configured editor
+$EDITOR "$full_path"

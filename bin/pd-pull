@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Get the notes directory from environment or use default
+NOTES_DIR="${PD_DIR:-$HOME/notes}"
+
+cd "$NOTES_DIR"
+git pull origin main 

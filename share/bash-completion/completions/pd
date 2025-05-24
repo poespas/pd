@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Simple completion function for pd command
+_pd_completion() {
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    local notes_dir="${PD_DIR:-$HOME/notes}"
+    
+    # Change to notes directory temporarily
+    pushd "${notes_dir}" >/dev/null 2>&1 || return
+    
+    # Generate file list based on current input
+    local file_list=""
+    if [[ "${cur}" == */* ]]; then
+        # Current input includes a path
+        local base_dir=$(dirname "${cur}")
+        local base_name=$(basename "${cur}")
+        
+        # Only proceed if directory exists
+        if [ -d "${base_dir}" ]; then
+            pushd "${base_dir}" >/dev/null 2>&1 || { popd >/dev/null 2>&1; return; }
+            
+            # Get matching files and format them with directory prefix
+            for f in $(compgen -f -- "${base_name}"); do
+                if [ -d "${f}" ]; then
+                    file_list="${file_list} ${base_dir}/${f}/"
+                else
+                    file_list="${file_list} ${base_dir}/${f}"
+                fi
+            done
+            
+            popd >/dev/null 2>&1
+        fi
+    else
+        # Current input is at root level
+        for f in $(compgen -f -- "${cur}"); do
+            if [ -d "${f}" ]; then
+                file_list="${file_list} ${f}/"
+            else
+                file_list="${file_list} ${f}"
+            fi
+        done
+    fi
+    
+    # Return to original directory
+    popd >/dev/null 2>&1
+    
+    # Set completions
+    COMPREPLY=( $(compgen -W "${file_list}" -- "${cur}") )
+    return 0
+}
+
+# Register completion function
+complete -o nospace -F _pd_completion pd 
