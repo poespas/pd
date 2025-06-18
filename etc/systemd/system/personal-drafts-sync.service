@@ -7,10 +7,3 @@ Type=oneshot
 User=ubuntu
 ExecStart=/usr/local/bin/pd-pull
 ExecStart=/usr/local/bin/pd-push
-
-[Timer]
-OnCalendar=hourly
-Persistent=true
-
-[Install]
-WantedBy=timers.target
